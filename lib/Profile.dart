@@ -8,9 +8,6 @@ class profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
-        child: Text('profile'),
-      ),
       bottomNavigationBar: CustomBottomNavBar(currentIndex: 2),
     );
   }
