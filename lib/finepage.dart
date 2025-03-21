@@ -58,7 +58,7 @@ Widget finebox(BuildContext context, String id, String date, double amount) {
             Text(
               "Cycle ID: $id",
               style: const TextStyle(
-                  color: Colors.white,
+                  color: Color.fromARGB(255, 255, 255, 255),
                   fontSize: 16,
                   fontWeight: FontWeight.bold),
             ),

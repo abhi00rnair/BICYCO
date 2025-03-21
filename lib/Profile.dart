@@ -8,6 +8,14 @@ class profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        title: const Text(
+          'PROFILE',
+          style: TextStyle(color: Colors.white),
+        ),
+        centerTitle: true,
+      ),
       bottomNavigationBar: CustomBottomNavBar(currentIndex: 2),
     );
   }

@@ -8,10 +8,14 @@ import 'package:bicyco/profile.dart';
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
 
-  const CustomBottomNavBar({super.key, required this.currentIndex});
+  const CustomBottomNavBar({
+    super.key,
+    required this.currentIndex,
+  });
 
   void _onItemTapped(BuildContext context, int index) {
     if (index == currentIndex) return;
+
     Widget nextScreen;
     switch (index) {
       case 0:
