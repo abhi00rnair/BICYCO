@@ -91,21 +91,21 @@ class _RentState extends State<Rent> {
                 },
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 40),
             Container(
               child: ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromARGB(255, 245, 184, 2),
                 ),
-                child: Text(
+                child: const Text(
                   'check availability',
-                  style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0)),
+                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
                 ),
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 40,
             ),
             Container(
               child: ElevatedButton(

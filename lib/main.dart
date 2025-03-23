@@ -1,4 +1,5 @@
 import 'package:bicyco/Exchange.dart';
+import 'package:bicyco/Issues.dart';
 import 'package:bicyco/Profile.dart';
 import 'package:bicyco/Rent.dart';
 import 'package:bicyco/dashboard.dart';
@@ -19,7 +20,7 @@ class Myapp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Rent(),
+      home: welcome(),
     );
   }
 }

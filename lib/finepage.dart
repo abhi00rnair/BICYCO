@@ -11,9 +11,9 @@ class finepage extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Title(
-          color: const Color.fromARGB(255, 255, 255, 255),
-          child: const Text('FINE'),
+        title: Text(
+          'FINE',
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
       ),
