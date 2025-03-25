@@ -7,8 +7,19 @@ class contribute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('contribute'),
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Title(
+          color: Colors.white,
+          child: Text(
+            'CONTRIBUTE',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+        centerTitle: true,
       ),
       bottomNavigationBar: CustomBottomNavBar(currentIndex: 0),
     );
