@@ -9,6 +9,7 @@
 .history
 .svn/
 migrate_working_dir/
+/BICYCO_backend/node_modules
 
 # IntelliJ related
 *.iml
