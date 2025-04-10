@@ -1,12 +1,4 @@
-import 'package:bicyco/Exchange.dart';
-import 'package:bicyco/Issues.dart';
-import 'package:bicyco/Profile.dart';
-import 'package:bicyco/Rent.dart';
 import 'package:bicyco/contribute.dart';
-import 'package:bicyco/dashboard.dart';
-import 'package:bicyco/finepage.dart';
-import 'package:bicyco/homescreen.dart';
-import 'package:bicyco/signup.dart';
 import 'package:bicyco/welcome.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +13,7 @@ class Myapp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: contribute(),
+      home: welcome(),
     );
   }
 }
