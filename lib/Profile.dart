@@ -1,8 +1,43 @@
 import 'package:bicyco/customnavigation.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-class profile extends StatelessWidget {
-  const profile({super.key});
+class Profile extends StatefulWidget {
+  const Profile({super.key});
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  String name = '';
+  String rollno = '';
+  String email = '';
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchProfileData();
+  }
+
+  Future<void> fetchProfileData() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user != null) {
+      final response = await Supabase.instance.client
+          .from('profiles')
+          .select()
+          .eq('email', user.email!) 
+          .single();
+
+      setState(() {
+        name = response['name'] ?? '';
+        rollno = response['rollno'] ?? '';
+        email = response['email'] ?? '';
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,60 +51,51 @@ class profile extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: EdgeInsets.all(15),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Align(
-              alignment: Alignment.center,
-            ),
-            Container(
-              width: 300,
-              height: 450,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 254, 184, 2), Colors.white],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomLeft),
-                borderRadius: BorderRadius.circular(30),
-              ),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator(color: Colors.yellow))
+          : Padding(
+              padding: const EdgeInsets.all(15),
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 40,
+                  const SizedBox(height: 20),
+                  Container(
+                    width: 300,
+                    height: 450,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color.fromARGB(255, 254, 184, 2),
+                          Colors.white
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomLeft,
+                      ),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 40),
+                        const CircleAvatar(
+                          radius: 60,
+                          backgroundImage: AssetImage('lib/images/logo.jpg'),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(name, style: const TextStyle(fontSize: 18)),
+                        const SizedBox(height: 20),
+                        Text(rollno, style: const TextStyle(fontSize: 18)),
+                        const SizedBox(height: 20),
+                        Text(email, style: const TextStyle(fontSize: 16)),
+                        const SizedBox(height: 30),
+                        ElevatedButton(
+                          onPressed: () {},
+                          child: const Text("EDIT PROFILE"),
+                        ),
+                      ],
+                    ),
                   ),
-                  CircleAvatar(
-                    radius: 60,
-                    backgroundImage: AssetImage('lib/images/logo.jpg'),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text('ARJUN SARATH'),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text('B220112CS'),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text("arjunsarath@gmail.com"),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Text("EDIT PROFILE"),
-                  )
                 ],
               ),
             ),
-          ],
-        ),
-      ),
       bottomNavigationBar: CustomBottomNavBar(currentIndex: 2),
     );
   }

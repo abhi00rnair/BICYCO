@@ -18,7 +18,7 @@ class _DashboardState extends State<Dashboard> {
   final List<Widget> wd = [
     Homescreen(),
     finepage(),
-    profile(),
+    Profile(),
   ];
 
   @override

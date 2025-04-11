@@ -25,7 +25,7 @@ class CustomBottomNavBar extends StatelessWidget {
         nextScreen = finepage();
         break;
       case 2:
-        nextScreen = profile();
+        nextScreen = Profile();
         break;
       default:
         return;

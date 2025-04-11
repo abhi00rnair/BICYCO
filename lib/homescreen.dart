@@ -21,7 +21,7 @@ class Homescreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Hi Arjun',
+                  'Hey Rider',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
@@ -39,18 +39,14 @@ class Homescreen extends StatelessWidget {
               ],
             ),
             SizedBox(width: 100),
-            Icon(
-              Icons.pedal_bike_outlined,
-              color: Colors.white,
-              size: 50,
-            ),
+            Icon(Icons.pedal_bike_outlined, color: Colors.white, size: 35),
           ],
         ),
         actions: [
           Stack(
             children: [
               IconButton(
-                onPressed: () {}, //functionaltntobeimplemented
+                onPressed: () {},
                 icon: const Icon(
                   Icons.notifications,
                   color: Colors.white,
