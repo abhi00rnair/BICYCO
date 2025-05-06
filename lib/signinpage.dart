@@ -1,4 +1,3 @@
-import 'package:bicyco/auth.dart';
 import 'package:bicyco/dashboard.dart';
 import 'package:flutter/material.dart';
 
@@ -10,14 +9,6 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final AuthService authService = AuthService();
-  void _goToSignUp() {
-    authService.signIn(_emailController.text, _passwordController.text);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => Dashboard()),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +69,7 @@ class _SignInPageState extends State<SignInPage> {
                   width: 320,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: _goToSignUp,
+                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 245, 184, 2),
                       foregroundColor: Colors.black,

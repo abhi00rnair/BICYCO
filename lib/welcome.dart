@@ -1,5 +1,4 @@
 import 'package:bicyco/signinpage.dart';
-import 'package:bicyco/signup.dart'; // SignUpPage
 import 'package:bicyco/signuppage.dart';
 import 'package:flutter/material.dart';
 

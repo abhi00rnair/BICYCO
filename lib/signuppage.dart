@@ -1,4 +1,3 @@
-import 'package:bicyco/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bicyco/dashboard.dart';
 
@@ -15,25 +14,6 @@ class _signuppageState extends State<signuppage> {
   final nameController = TextEditingController();
   final rollnoController = TextEditingController();
   final departmentController = TextEditingController();
-  final AuthService auth = AuthService();
-  void signup() {
-    try {
-      auth.signUp(
-        usernameController.text.trim(),
-        passwordController.text.trim(),
-        nameController.text.trim().toUpperCase(),
-        rollnoController.text.trim().toUpperCase(),
-        departmentController.text.trim().toUpperCase(),
-      );
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const Dashboard()),
-      );
-    } catch (e) {
-      print("Signup error: $e");
-    }
-  }
 
   @override
   void dispose() {
@@ -160,7 +140,7 @@ class _signuppageState extends State<signuppage> {
                 width: 320,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: signup,
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 245, 184, 2),
                     foregroundColor: Colors.black,

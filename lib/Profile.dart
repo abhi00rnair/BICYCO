@@ -1,6 +1,5 @@
 import 'package:bicyco/customnavigation.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -14,30 +13,6 @@ class _ProfileState extends State<Profile> {
   String rollno = '';
   String email = '';
   bool isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    fetchProfileData();
-  }
-
-  Future<void> fetchProfileData() async {
-    final user = Supabase.instance.client.auth.currentUser;
-    if (user != null) {
-      final response = await Supabase.instance.client
-          .from('profiles')
-          .select()
-          .eq('email', user.email!) 
-          .single();
-
-      setState(() {
-        name = response['name'] ?? '';
-        rollno = response['rollno'] ?? '';
-        email = response['email'] ?? '';
-        isLoading = false;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

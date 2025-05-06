@@ -21,7 +21,7 @@ class signup extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              '-------------------Login using nitc mail-------------------',
+              '------------------Login using nitc mail------------------',
               style: TextStyle(color: Colors.white),
             ),
             const SizedBox(

@@ -81,7 +81,7 @@ class Homescreen extends StatelessWidget {
                 buildrow(context, 'Rent', Icons.pedal_bike, Rent(), 'Issues',
                     Icons.warning, Issues()),
                 const SizedBox(height: 20),
-                buildrow(context, 'About', Icons.info, about(), 'Contribute',
+                buildrow(context, 'About', Icons.info, About(), 'Contribute',
                     Icons.handshake_outlined, contribute()),
                 const SizedBox(height: 20),
                 buildrow(context, 'Exchange', Icons.sell_outlined, exchange(),
