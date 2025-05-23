@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seproject/screens/customnavigation.dart';
+import 'package:seproject/screens/finepage.dart';
+import 'package:seproject/screens/profile.dart';
 
 class Rent extends StatefulWidget {
   const Rent({super.key});
@@ -122,7 +124,8 @@ class _RentState extends State<Rent> {
           ],
         ),
       ),
-      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 0),
+      bottomNavigationBar:
+          CustomBottomNavBar(currentIndex: 0, onTap: (int index) {}),
     );
   }
 }

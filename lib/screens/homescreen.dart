@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seproject/models/profilemodel.dart';
 import 'package:seproject/screens/about.dart';
 import 'package:seproject/screens/contribute.dart';
 import 'package:seproject/screens/exchange.dart';
@@ -7,7 +8,8 @@ import 'package:seproject/screens/leaderboard.dart';
 import 'package:seproject/screens/rent.dart';
 
 class Homescreen extends StatelessWidget {
-  const Homescreen({super.key});
+  final ProfileModel profile;
+  const Homescreen({super.key, required this.profile});
 
   @override
   Widget build(BuildContext context) {
@@ -82,9 +84,9 @@ class Homescreen extends StatelessWidget {
                     Icons.warning, Issues()),
                 const SizedBox(height: 20),
                 buildrow(context, 'About', Icons.info, About(), 'Contribute',
-                    Icons.handshake_outlined, contribute()),
+                    Icons.handshake_outlined, Contribute()),
                 const SizedBox(height: 20),
-                buildrow(context, 'Exchange', Icons.sell_outlined, exchange(),
+                buildrow(context, 'Exchange', Icons.sell_outlined, Exchange(),
                     'Leaderboard', Icons.leaderboard, Leaderboard()),
               ],
             ),

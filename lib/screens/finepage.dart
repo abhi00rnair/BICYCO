@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:seproject/models/profilemodel.dart';
 import 'package:seproject/screens/customnavigation.dart';
+import 'package:seproject/screens/homescreen.dart';
 import 'package:seproject/screens/payment.dart';
+import 'package:seproject/screens/profile.dart';
 
-class finepage extends StatelessWidget {
-  const finepage({super.key});
+class finepage extends StatefulWidget {
+  final ProfileModel profile;
+  const finepage({super.key, required this.profile});
 
+  @override
+  State<finepage> createState() => _finepageState();
+}
+
+class _finepageState extends State<finepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +35,6 @@ class finepage extends StatelessWidget {
           finebox(context, '002', '25/12/2025', 30),
         ],
       ),
-      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 1),
     );
   }
 }

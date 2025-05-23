@@ -74,7 +74,7 @@ class About extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 0),
+      
     );
   }
 }

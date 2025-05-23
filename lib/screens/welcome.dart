@@ -25,7 +25,8 @@ class Welcome extends StatelessWidget {
           if (idToken != null) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => Dashboard()),
+              MaterialPageRoute(
+                  builder: (context) => Dashboard(idToken: idToken)),
             );
 
             _startAutoSignOutTimer(context, googleSignIn);
