@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:seproject/screens/customnavigation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:seproject/screens/url.dart';
+import 'package:seproject/models/cyclemodel.dart';
+import 'package:seproject/screens/book.dart';
+import 'package:seproject/services/api.dart';
 
 class Rent extends StatefulWidget {
-  const Rent({super.key});
+  final String idToken;
+  const Rent({super.key, required this.idToken});
 
   @override
-  _RentState createState() => _RentState();
+  RentState createState() => RentState();
 }
 
-class _RentState extends State<Rent> {
-  List<String> dept = ['CS', 'EC', 'EEE'];
-  List<int> days = [1, 2, 3, 4];
+class RentState extends State<Rent> {
+  late Future<List<Cycle>> _cycleFuture;
+  final ApiService apiService = ApiService(baseUrl: baseUrl);
 
-  String? selectedDept;
-  int? selectedDays;
+  @override
+  void initState() {
+    super.initState();
+    _cycleFuture = apiService.fetchCycleDetails(widget.idToken);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,102 +35,130 @@ class _RentState extends State<Rent> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
+      body: FutureBuilder<List<Cycle>>(
+        future: _cycleFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(
+                child: Text('Error: ${snapshot.error}',
+                    style: const TextStyle(color: Colors.white)));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(
+                child: Text('No cycles available',
+                    style: TextStyle(color: Colors.white)));
+          } else {
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                return CycleBox(c1: snapshot.data![index]);
+              },
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+
+class CycleBox extends StatefulWidget {
+  final Cycle c1;
+  const CycleBox({super.key, required this.c1});
+
+  @override
+  State<CycleBox> createState() => _CycleBoxState();
+}
+
+class _CycleBoxState extends State<CycleBox> {
+  String dropdownValue = '1 Day';
+
+  final List<String> daysOptions = ['1 Day', '2 Days', '3 Days'];
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.all(10),
+      color: Colors.grey[900],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
             Container(
+              width: 80,
+              height: 80,
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.white, width: 1),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.grey[800],
               ),
-              child: DropdownButtonFormField<String>(
-                value: selectedDept,
-                dropdownColor: Colors.grey[900],
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                  border: InputBorder.none,
-                ),
-                hint: const Text("Select Department",
-                    style: TextStyle(color: Colors.white)),
-                items: dept.map((String department) {
-                  return DropdownMenuItem<String>(
-                    value: department,
-                    child: Text(department,
-                        style: const TextStyle(color: Colors.white)),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedDept = newValue!;
-                  });
-                },
-              ),
+              child: Image.asset('lib/images/11.png'),
             ),
-            const SizedBox(height: 20),
-            const SizedBox(height: 20),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.white, width: 1),
-                borderRadius: BorderRadius.circular(10),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Cycle ID: ${widget.c1.cycleId}",
+                      style: const TextStyle(color: Colors.white)),
+                  const SizedBox(height: 6),
+                  Text(
+                      "Status: ${widget.c1.status ? 'Available' : 'Not Available'}",
+                      style: const TextStyle(
+                          color: Color.fromARGB(179, 123, 209, 18))),
+                  const SizedBox(height: 10),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      /*DropdownButton<String>(
+                        value: dropdownValue,
+                        dropdownColor: Colors.black,
+                        iconEnabledColor: Colors.white,
+                        style: const TextStyle(color: Colors.white),
+                        items: daysOptions.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value,
+                                style: const TextStyle(color: Colors.white)),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownValue = newValue!;
+                          });
+                        },
+                      ),*/
+                      ElevatedButton(
+                        onPressed: () {
+                          if (widget.c1.status == true) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => book(
+                                  cycleid: widget.c1.cycleId,
+                                  status: widget.c1.status,
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 254, 184, 2),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                        ),
+                        child: const Text("Check out"),
+                      ),
+                    ],
+                  )
+                ],
               ),
-              child: DropdownButtonFormField<int>(
-                value: selectedDays,
-                dropdownColor: Colors.grey[900],
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                  border: InputBorder.none,
-                ),
-                hint: const Text("Select No. of Days",
-                    style: TextStyle(color: Colors.white)),
-                items: days.map((int day) {
-                  return DropdownMenuItem<int>(
-                    value: day,
-                    child: Text(day.toString(),
-                        style: const TextStyle(color: Colors.white)),
-                  );
-                }).toList(),
-                onChanged: (int? newValue) {
-                  setState(() {
-                    selectedDays = newValue!;
-                  });
-                },
-              ),
-            ),
-            const SizedBox(height: 40),
-            Container(
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 245, 184, 2),
-                ),
-                child: const Text(
-                  'check availability',
-                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            Container(
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 245, 184, 2),
-                ),
-                child: Text(
-                  'BOOK NOWW',
-                  style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0)),
-                ),
-              ),
-            ),
+            )
           ],
         ),
       ),
-      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 0),
     );
   }
 }

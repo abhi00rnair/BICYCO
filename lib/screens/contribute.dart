@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:seproject/screens/customnavigation.dart';
+import 'package:seproject/screens/finepage.dart';
+import 'package:seproject/screens/profile.dart';
 
-class contribute extends StatelessWidget {
-  const contribute({super.key});
+class Contribute extends StatelessWidget {
+  const Contribute({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,18 +12,15 @@ class contribute extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Title(
-          color: Colors.white,
-          child: Text(
-            'CONTRIBUTE',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-        ),
+        title: Text('CONTRIBUTE', style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
-      bottomNavigationBar: CustomBottomNavBar(currentIndex: 0),
+      body: Center(
+        child: Text(
+          'Contribute Screen',
+          style: TextStyle(color: Colors.white, fontSize: 24),
+        ),
+      ),
     );
   }
 }

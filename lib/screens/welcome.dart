@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:seproject/screens/url.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -25,7 +25,8 @@ class Welcome extends StatelessWidget {
           if (idToken != null) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => Dashboard()),
+              MaterialPageRoute(
+                  builder: (context) => Dashboard(idToken: idToken)),
             );
 
             _startAutoSignOutTimer(context, googleSignIn);
@@ -54,7 +55,7 @@ class Welcome extends StatelessWidget {
   }
 
   void _startAutoSignOutTimer(BuildContext context, GoogleSignIn googleSignIn) {
-    Timer(Duration(seconds: 30), () async {
+    Timer(Duration(seconds: 120), () async {
       await googleSignIn.signOut();
       Navigator.pushReplacement(
         context,

@@ -10,7 +10,6 @@ class Leaderboard extends StatelessWidget {
       body: Center(
         child: Text('leaderboard -page'),
       ),
-      bottomNavigationBar: CustomBottomNavBar(currentIndex: 0),
     );
   }
 }

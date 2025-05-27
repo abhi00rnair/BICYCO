@@ -5,41 +5,19 @@ import 'package:seproject/screens/profile.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
+  final ValueChanged<int> onTap; // add this
 
   const CustomBottomNavBar({
     super.key,
     required this.currentIndex,
+    required this.onTap, // require onTap
   });
-
-  void _onItemTapped(BuildContext context, int index) {
-    if (index == currentIndex) return;
-
-    Widget nextScreen;
-    switch (index) {
-      case 0:
-        nextScreen = Dashboard();
-        break;
-      case 1:
-        nextScreen = finepage();
-        break;
-      case 2:
-        nextScreen = Profile();
-        break;
-      default:
-        return;
-    }
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => nextScreen),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      onTap: (index) => _onItemTapped(context, index),
       currentIndex: currentIndex,
+      onTap: onTap, // pass onTap here
       selectedItemColor: Color.fromARGB(255, 245, 184, 2),
       unselectedItemColor: Colors.white,
       backgroundColor: Colors.black,
