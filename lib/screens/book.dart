@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:seproject/services/api.dart';
 import 'package:seproject/screens/url.dart';
+
+import 'package:seproject/services/api.dart';
 
 class book extends StatefulWidget {
   final String cycleid;
   final bool status;
-  static String baseUrl = baseUrl;
-
-  book({super.key, required this.cycleid, required this.status});
+  final String roll;
+  book(
+      {super.key,
+      required this.cycleid,
+      required this.status,
+      required this.roll});
 
   @override
   State<book> createState() => _bookState();
@@ -22,6 +26,7 @@ class _bookState extends State<book> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         title: const Text(
           'BOOK CYCLE',
           style: TextStyle(
@@ -88,8 +93,9 @@ class _bookState extends State<book> {
             ElevatedButton(
               onPressed: () async {
                 try {
-                  ApiService api = ApiService(baseUrl: book.baseUrl);
-                  api.changecycle(widget.cycleid);
+                  ApiService api = ApiService(baseUrl: baseUrl);
+                  api.changecyclestate(widget.cycleid);
+                  api.bookfine(widget.cycleid, widget.roll);
 
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Cycle booked successfully!')),

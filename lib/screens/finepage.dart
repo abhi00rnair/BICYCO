@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:seproject/models/finemodel.dart';
 import 'package:seproject/models/profilemodel.dart';
-import 'package:seproject/screens/customnavigation.dart';
-import 'package:seproject/screens/homescreen.dart';
 import 'package:seproject/screens/payment.dart';
 import 'package:seproject/screens/profile.dart';
+import 'package:seproject/screens/url.dart';
+import 'package:seproject/services/api.dart';
 
 class finepage extends StatefulWidget {
   final ProfileModel profile;
@@ -14,26 +15,68 @@ class finepage extends StatefulWidget {
 }
 
 class _finepageState extends State<finepage> {
+  late Future<List<Fine>> fineFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    fineFuture = fetchFinesForUser(widget.profile.rollNo);
+  }
+
+  Future<List<Fine>> fetchFinesForUser(String rollNo) async {
+    final apiService = ApiService(baseUrl: baseUrl);
+    final fine = await apiService.fetchfine(widget.profile.rollNo);
+    if (fine == null) {
+      return [];
+    } else {
+      return [fine];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Colors.black,
-        title: Text(
+        title: const Text(
           'FINE',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          finebox(context, '001', '25/05/2000', 25),
-          const SizedBox(
-            height: 30,
-          ),
-          finebox(context, '002', '25/12/2025', 30),
-        ],
+      body: FutureBuilder<List<Fine>>(
+        future: fineFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}',
+                  style: const TextStyle(color: Colors.white)),
+            );
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(
+              child: Text('No fines available',
+                  style: TextStyle(color: Colors.white)),
+            );
+          } else {
+            final fines = snapshot.data!;
+            return ListView.builder(
+              itemCount: fines.length,
+              itemBuilder: (context, index) {
+                final fine = fines[index];
+                return finebox(
+                  context,
+                  fine.cycleId,
+                  fine.date.toString().split(" ")[0],
+                  fine.fine.toDouble(),
+                );
+              },
+            );
+          }
+        },
       ),
     );
   }

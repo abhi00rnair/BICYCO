@@ -5,6 +5,7 @@ import 'package:seproject/screens/contribute.dart';
 import 'package:seproject/screens/exchange.dart';
 import 'package:seproject/screens/issues.dart';
 import 'package:seproject/screens/leaderboard.dart';
+import 'package:seproject/screens/profile.dart';
 import 'package:seproject/screens/rent.dart';
 
 class Homescreen extends StatelessWidget {
@@ -18,20 +19,20 @@ class Homescreen extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 0, 0, 0),
-        title: const Row(
+        title: Row(
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Hey Rider',
-                  style: TextStyle(
+                  profile.name,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
                     fontSize: 15,
                   ),
                 ),
-                Text(
+                const Text(
                   'Welcome back',
                   style: TextStyle(
                     color: Colors.white,
@@ -41,7 +42,7 @@ class Homescreen extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(width: 100),
+            SizedBox(width: 150),
             Icon(Icons.pedal_bike_outlined, color: Colors.white, size: 35),
           ],
         ),
@@ -81,8 +82,17 @@ class Homescreen extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                buildrow(context, 'Rent', Icons.pedal_bike,
-                    Rent(idToken: idToken), 'Issues', Icons.warning, Issues()),
+                buildrow(
+                    context,
+                    'Rent',
+                    Icons.pedal_bike,
+                    Rent(
+                      idToken: idToken,
+                      roll: profile.rollNo,
+                    ),
+                    'Issues',
+                    Icons.warning,
+                    Issues()),
                 const SizedBox(height: 20),
                 buildrow(context, 'About', Icons.info, About(), 'Contribute',
                     Icons.handshake_outlined, Contribute()),

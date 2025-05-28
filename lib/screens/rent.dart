@@ -7,7 +7,8 @@ import 'package:seproject/services/api.dart';
 
 class Rent extends StatefulWidget {
   final String idToken;
-  const Rent({super.key, required this.idToken});
+  final String roll;
+  const Rent({super.key, required this.idToken, required this.roll});
 
   @override
   RentState createState() => RentState();
@@ -29,9 +30,10 @@ class RentState extends State<Rent> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
+        iconTheme: const IconThemeData(color: Colors.white),
         title: const Text(
           'BOOK CYCLE',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -52,7 +54,10 @@ class RentState extends State<Rent> {
             return ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
-                return CycleBox(c1: snapshot.data![index]);
+                return CycleBox(
+                  c1: snapshot.data![index],
+                  roll: widget.roll,
+                );
               },
             );
           }
@@ -63,8 +68,9 @@ class RentState extends State<Rent> {
 }
 
 class CycleBox extends StatefulWidget {
+  final String roll;
   final Cycle c1;
-  const CycleBox({super.key, required this.c1});
+  const CycleBox({super.key, required this.c1, required this.roll});
 
   @override
   State<CycleBox> createState() => _CycleBoxState();
@@ -104,9 +110,12 @@ class _CycleBoxState extends State<CycleBox> {
                       style: const TextStyle(color: Colors.white)),
                   const SizedBox(height: 6),
                   Text(
-                      "Status: ${widget.c1.status ? 'Available' : 'Not Available'}",
-                      style: const TextStyle(
-                          color: Color.fromARGB(179, 123, 209, 18))),
+                    "Status: ${widget.c1.status ? 'Available' : 'Not Available'}",
+                    style: const TextStyle().copyWith(
+                        color: widget.c1.status
+                            ? Color.fromARGB(179, 63, 219, 24)
+                            : Colors.red),
+                  ),
                   const SizedBox(height: 10),
                   const SizedBox(height: 10),
                   Row(
@@ -131,26 +140,48 @@ class _CycleBoxState extends State<CycleBox> {
                         },
                       ),*/
                       ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (widget.c1.status == true) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => book(
-                                  cycleid: widget.c1.cycleId,
-                                  status: widget.c1.status,
+                            final apiService = ApiService(baseUrl: baseUrl);
+                            final fine =
+                                await apiService.fetchfine(widget.roll);
+
+                            if (fine == null) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => book(
+                                      cycleid: widget.c1.cycleId,
+                                      status: widget.c1.status,
+                                      roll: widget.roll),
                                 ),
-                              ),
-                            );
+                              );
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text("Booking Denied"),
+                                  content: Text(
+                                      "You have a pending fine. Please clear it before booking."),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text("OK"),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
                           }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color.fromARGB(255, 254, 184, 2),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
                         child: const Text("Check out"),
-                      ),
+                      )
                     ],
                   )
                 ],

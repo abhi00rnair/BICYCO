@@ -55,7 +55,7 @@ class Welcome extends StatelessWidget {
   }
 
   void _startAutoSignOutTimer(BuildContext context, GoogleSignIn googleSignIn) {
-    Timer(Duration(seconds: 120), () async {
+    Timer(Duration(seconds: 60), () async {
       await googleSignIn.signOut();
       Navigator.pushReplacement(
         context,
